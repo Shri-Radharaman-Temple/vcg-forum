@@ -11,10 +11,10 @@ export default function AdminDashboardPage() {
   const openReports = reports.filter((r) => r.status === 'OPEN').length
 
   return (
-    <Main className="gap-8 px-12 py-10">
+    <Main className="gap-6 lg:gap-8 px-5 lg:px-12 py-6 lg:py-10">
       <PageTitle deva="प्रबंधन">Dashboard</PageTitle>
 
-      <div className="grid grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 xl:grid-cols-5">
         {adminMetrics.map((m) => (
           <Link
             key={m.label}
@@ -23,7 +23,7 @@ export default function AdminDashboardPage() {
           >
             <span
               className={cn(
-                'text-[30px] font-extralight leading-none',
+                'text-[26px] font-extralight leading-none sm:text-[30px]',
                 m.attention ? 'text-terracotta' : 'text-ink',
               )}
             >
@@ -36,7 +36,7 @@ export default function AdminDashboardPage() {
         ))}
       </div>
 
-      <section className="grid grid-cols-2 gap-10 pb-12">
+      <section className="grid grid-cols-1 gap-8 pb-4 xl:grid-cols-2 xl:gap-10 xl:pb-12">
         <div className="flex flex-col gap-3">
           <SectionHead
             title="Awaiting approval"
@@ -51,7 +51,7 @@ export default function AdminDashboardPage() {
               key={d.id}
               className="flex items-baseline justify-between gap-3 border-t border-line py-2.5"
             >
-              <span className="flex flex-col">
+              <span className="flex min-w-0 flex-col">
                 <span className="text-[14px] text-ink">{d.name}</span>
                 <span className="text-[12px] font-light text-muted">{d.email}</span>
               </span>
@@ -106,13 +106,15 @@ export default function AdminDashboardPage() {
         {auditLog.slice(0, 4).map((a) => (
           <div
             key={a.id}
-            className="flex items-baseline gap-4 border-t border-line py-2.5 text-[14px] font-light"
+            className="flex flex-wrap items-baseline gap-x-4 gap-y-0.5 border-t border-line py-2.5 text-[14px] font-light"
           >
-            <span className="w-[150px] shrink-0 text-ink">{a.actor}</span>
-            <span className="flex-1 text-ink-3">
+            <span className="shrink-0 text-ink sm:w-[150px]">{a.actor}</span>
+            <span className="w-full text-ink-3 max-sm:order-last sm:w-auto sm:flex-1">
               {a.action} — <span className="text-muted">{a.target}</span>
             </span>
-            <span className="shrink-0 text-[12px] text-muted-2">{a.at}</span>
+            <span className="ml-auto shrink-0 text-[12px] text-muted-2 sm:ml-0">
+              {a.at}
+            </span>
           </div>
         ))}
       </section>

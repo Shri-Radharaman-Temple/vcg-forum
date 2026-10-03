@@ -33,11 +33,11 @@ export default function SadhnaPage() {
 
   return (
     <>
-      <Main className="gap-7 px-14 py-10">
-        <header className="flex items-end justify-between gap-6">
+      <Main className="gap-6 lg:gap-7 px-5 lg:px-14 py-6 lg:py-10">
+        <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
           <PageTitle deva="साधना">Sadhna</PageTitle>
           {can(user, 'sadhna.create') ? (
-            <div className="flex gap-2.5">
+            <div className="grid grid-cols-2 gap-2.5 sm:flex">
               <Button variant="outline" onClick={() => setLogging('chanting')}>
                 <FlowerLotus size={17} weight="light" />
                 Log chanting
@@ -56,7 +56,7 @@ export default function SadhnaPage() {
 
         <section className="flex flex-col gap-4">
           <SectionHead title="This week" />
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
             <Stat
               value={sadhnaSummary.weekRounds}
               label="rounds chanted"
@@ -80,12 +80,12 @@ export default function SadhnaPage() {
           <SectionHead
             title="History"
             action={
-              <span className="text-[13px] font-light text-muted">
+              <span className="text-right text-[13px] font-light text-muted">
                 Tap a day to see its entries
               </span>
             }
           />
-          <div className="rounded-[12px] border border-line bg-surface p-5">
+          <div className="rounded-[12px] border border-line bg-surface px-2 py-4 sm:p-5">
             <div className="grid grid-cols-7 gap-y-3">
               {WEEKDAY_INITIALS.map((d, i) => (
                 <span
@@ -143,7 +143,7 @@ export default function SadhnaPage() {
                 key={entry.id}
                 className="flex items-baseline gap-4 border-t border-line py-3"
               >
-                <span className="flex w-[100px] shrink-0 items-center gap-2 text-[14px] capitalize text-ink">
+                <span className="flex w-[88px] shrink-0 items-center gap-2 text-[14px] capitalize text-ink sm:w-[100px]">
                   {entry.activity === 'chanting' ? (
                     <FlowerLotus size={16} weight="light" className="text-tulsi" />
                   ) : (
@@ -177,7 +177,7 @@ export default function SadhnaPage() {
         </section>
       </Main>
 
-      <Rail width={300} className="px-7">
+      <Rail width={300} className="lg:px-7">
         <div className="flex flex-col gap-3">
           <SectionHead title="Today" />
           <div className="grid grid-cols-2 gap-2.5">
@@ -238,16 +238,16 @@ function LogForm({
         e.preventDefault()
         onClose()
       }}
-      className="flex flex-col gap-4 rounded-[12px] border border-line bg-surface p-5"
+      className="flex flex-col gap-4 rounded-[12px] border border-line bg-surface p-4 sm:p-5"
     >
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-x-3">
         <span className="text-[15px] capitalize">Log {activity}</span>
         <span className="text-[13px] font-light text-muted">
           Saturday, 26 September
         </span>
       </div>
 
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {activity === 'chanting' ? (
           <label className="flex flex-col gap-1.5">
             <span className="text-[13px] text-ink-4">Rounds</span>
@@ -256,7 +256,7 @@ function LogForm({
               min={0}
               max={200}
               defaultValue={16}
-              className="h-10 rounded-[10px] border border-line-strong bg-ground px-3.5 text-[15px] font-light focus:border-tulsi focus:outline-none"
+              className="h-10 rounded-[10px] border border-line-strong bg-ground px-3.5 text-[15px] font-light focus:border-tulsi focus:outline-none max-lg:text-[16px]"
             />
           </label>
         ) : (
@@ -266,7 +266,7 @@ function LogForm({
               type="number"
               min={0}
               defaultValue={10}
-              className="h-10 rounded-[10px] border border-line-strong bg-ground px-3.5 text-[15px] font-light focus:border-tulsi focus:outline-none"
+              className="h-10 rounded-[10px] border border-line-strong bg-ground px-3.5 text-[15px] font-light focus:border-tulsi focus:outline-none max-lg:text-[16px]"
             />
           </label>
         )}
@@ -277,16 +277,16 @@ function LogForm({
             type="number"
             min={0}
             defaultValue={activity === 'chanting' ? 96 : 20}
-            className="h-10 rounded-[10px] border border-line-strong bg-ground px-3.5 text-[15px] font-light focus:border-tulsi focus:outline-none"
+            className="h-10 rounded-[10px] border border-line-strong bg-ground px-3.5 text-[15px] font-light focus:border-tulsi focus:outline-none max-lg:text-[16px]"
           />
         </label>
 
         {activity === 'reading' ? (
-          <label className="flex flex-col gap-1.5">
+          <label className="col-span-2 flex flex-col gap-1.5 sm:col-span-1">
             <span className="text-[13px] text-ink-4">Book</span>
             <select
               defaultValue="r_brs"
-              className="h-10 rounded-[10px] border border-line-strong bg-ground px-3 text-[15px] font-light focus:border-tulsi focus:outline-none"
+              className="h-10 rounded-[10px] border border-line-strong bg-ground px-3 text-[15px] font-light focus:border-tulsi focus:outline-none max-lg:text-[16px]"
             >
               <option value="r_brs">Bhakti Rasamrita Sindhu</option>
               <option value="r_bhagavatam">Srimad Bhagavatam</option>
@@ -301,7 +301,7 @@ function LogForm({
         <textarea
           rows={2}
           placeholder="Anything worth remembering about today's practice"
-          className="resize-none rounded-[10px] border border-line-strong bg-ground px-3.5 py-2.5 text-[15px] font-light leading-[1.6] placeholder:text-muted-2 focus:border-tulsi focus:outline-none"
+          className="resize-none rounded-[10px] border border-line-strong bg-ground px-3.5 py-2.5 text-[15px] font-light leading-[1.6] placeholder:text-muted-2 focus:border-tulsi focus:outline-none max-lg:text-[16px]"
         />
       </label>
 

@@ -54,9 +54,9 @@ export default function HomePage() {
     <>
       <Main>
         <header className="flex flex-col gap-1">
-          <div className="flex items-baseline gap-3.5">
-            <span className="deva text-[34px] leading-[1.1]">राधे राधे</span>
-            <span className="text-[30px] font-light leading-[1.1]">
+          <div className="flex flex-wrap items-baseline gap-x-3.5">
+            <span className="deva text-[28px] leading-[1.1] sm:text-[34px]">राधे राधे</span>
+            <span className="text-[25px] font-light leading-[1.1] sm:text-[30px]">
               {user.name.split(' ')[0]}
             </span>
           </div>
@@ -68,16 +68,18 @@ export default function HomePage() {
         {can(user, 'feed.create') ? (
           <Link
             href="/posts/new"
-            className="flex items-center gap-3.5 rounded-[12px] border border-line bg-surface px-[18px] py-3.5 text-[15px] font-light text-muted transition-colors hover:border-line-deep hover:text-muted"
+            className="flex items-center gap-3 rounded-[12px] border border-line bg-surface px-3.5 py-3 sm:gap-3.5 sm:px-[18px] sm:py-3.5 text-[15px] font-light text-muted transition-colors hover:border-line-deep hover:text-muted"
           >
             <Avatar initials={user.initials} tone={user.avatarTone} size="lg" />
-            <span className="flex-1">Share something with the parivar…</span>
+            <span className="min-w-0 flex-1 truncate">
+              Share something with the parivar…
+            </span>
             <ImageIcon size={20} weight="light" />
             <YoutubeLogo size={20} weight="light" />
           </Link>
         ) : null}
 
-        <div className="flex items-center justify-between border-b border-line">
+        <div className="flex flex-col gap-3 border-b border-line lg:flex-row lg:items-center lg:justify-between">
           <Tabs value={sort} onValueChange={(v) => setSort(v as FeedSort)}>
             <TabsList>
               <TabsTrigger value="latest">Latest</TabsTrigger>
@@ -86,7 +88,7 @@ export default function HomePage() {
             </TabsList>
           </Tabs>
 
-          <div className="flex items-center gap-4 pb-2.5 text-[13px] font-light text-ink-5">
+          <div className="no-scrollbar -mx-5 flex items-center gap-4 overflow-x-auto whitespace-nowrap px-5 text-[13px] font-light text-ink-5 max-lg:order-first lg:mx-0 lg:px-0 lg:pb-2.5">
             <button
               type="button"
               onClick={() => setFlagFilter(null)}
@@ -105,7 +107,7 @@ export default function HomePage() {
                   setFlagFilter((c) => (c === flag.id ? null : flag.id))
                 }
                 className={cn(
-                  'flex items-center gap-1.5 transition-colors hover:text-ink',
+                  'flex shrink-0 items-center gap-1.5 transition-colors hover:text-ink',
                   flagFilter === flag.id && 'text-ink',
                 )}
               >
@@ -116,7 +118,7 @@ export default function HomePage() {
             <button
               type="button"
               onClick={() => setShowAllFlags((v) => !v)}
-              className="flex items-center gap-1 transition-colors hover:text-ink"
+              className="flex shrink-0 items-center gap-1 transition-colors hover:text-ink"
             >
               {showAllFlags ? 'Less' : 'More'}
               <CaretDown
@@ -128,7 +130,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="flex flex-col pb-10">
+        <div className="flex flex-col pb-16 lg:pb-10">
           {visible.length === 0 ? (
             <EmptyState
               icon={MegaphoneSimple}

@@ -30,8 +30,8 @@ export default function PendingApprovalPage() {
   const queue = pendingDevotees.filter((d) => !decisions[d.id])
 
   return (
-    <Main className="gap-7 px-12 py-10">
-      <header className="flex items-end justify-between gap-6">
+    <Main className="gap-6 lg:gap-7 px-5 lg:px-12 py-6 lg:py-10">
+      <header className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
         <PageTitle deva="प्रतीक्षारत">Pending Approval</PageTitle>
         <span className="text-[14px] font-light text-muted">
           {queue.length} awaiting review
@@ -57,17 +57,22 @@ export default function PendingApprovalPage() {
           queue.map((d) => (
             <div
               key={d.id}
-              className="flex items-center gap-4 rounded-[12px] border border-line bg-surface p-5"
+              className="flex flex-wrap items-center gap-4 rounded-[12px] border border-line bg-surface p-4 sm:flex-nowrap sm:p-5"
             >
-              <Avatar initials={d.initials} tone={d.avatarTone} size="xl" />
-              <div className="flex flex-1 flex-col gap-0.5">
-                <div className="flex items-baseline gap-3">
+              <Avatar
+                initials={d.initials}
+                tone={d.avatarTone}
+                size="xl"
+                className="h-12 w-12 text-[16px] sm:h-16 sm:w-16 sm:text-[20px]"
+              />
+              <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                <div className="flex flex-wrap items-baseline gap-x-3">
                   <span className="text-[17px] text-ink">{d.name}</span>
                   {d.initiatedName ? (
                     <span className="deva text-[15px]">{d.initiatedName}</span>
                   ) : null}
                 </div>
-                <span className="text-[14px] font-light text-ink-4">
+                <span className="truncate text-[14px] font-light text-ink-4">
                   {d.email}
                 </span>
                 <span className="text-[13px] font-light text-muted">
@@ -76,7 +81,7 @@ export default function PendingApprovalPage() {
                 </span>
               </div>
               {allowed ? (
-                <div className="flex gap-2.5">
+                <div className="grid w-full grid-cols-2 gap-2.5 sm:flex sm:w-auto">
                   <Button
                     variant="primary"
                     onClick={() =>
@@ -99,14 +104,14 @@ export default function PendingApprovalPage() {
 
       {/* Rejection optionally carries an admin note (spec §19). */}
       {rejecting ? (
-        <div className="fixed inset-0 z-20 flex items-center justify-center bg-[#2A241F]/25 px-6">
+        <div className="fixed inset-0 z-20 flex items-end justify-center bg-[#2A241F]/25 sm:items-center sm:px-6">
           <form
             onSubmit={(e) => {
               e.preventDefault()
               setDecisions((p) => ({ ...p, [rejecting.id]: 'rejected' }))
               setRejecting(null)
             }}
-            className="flex w-full max-w-[460px] flex-col gap-4 rounded-[14px] border border-line bg-ground p-6"
+            className="flex w-full max-w-[460px] flex-col gap-4 rounded-t-[16px] border border-line bg-ground p-5 pb-[max(20px,env(safe-area-inset-bottom))] sm:rounded-[14px] sm:p-6"
           >
             <span className="text-[19px] font-light">
               Reject {rejecting.name}?
@@ -118,9 +123,9 @@ export default function PendingApprovalPage() {
             <textarea
               rows={3}
               placeholder="Internal note (optional)"
-              className="resize-none rounded-[10px] border border-line-strong bg-surface px-3.5 py-2.5 text-[15px] font-light leading-[1.6] placeholder:text-muted-2 focus:border-tulsi focus:outline-none"
+              className="resize-none rounded-[10px] border border-line-strong bg-surface px-3.5 py-2.5 text-[15px] font-light leading-[1.6] placeholder:text-muted-2 focus:border-tulsi focus:outline-none max-lg:text-[16px]"
             />
-            <div className="flex justify-end gap-2.5">
+            <div className="flex justify-end gap-2.5 max-sm:[&>*]:flex-1">
               <Button
                 type="button"
                 variant="ghost"

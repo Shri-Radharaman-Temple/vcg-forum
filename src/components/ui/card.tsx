@@ -48,17 +48,22 @@ export function PageTitle({
   size?: 'lg' | 'md'
 }) {
   return (
-    <div className="flex items-baseline gap-3.5">
+    <div className="flex flex-wrap items-baseline gap-x-3.5 gap-y-0.5">
       <h1
         className={cn(
           'm-0 font-light leading-[1.1]',
-          size === 'lg' ? 'text-[34px]' : 'text-[32px]',
+          size === 'lg' ? 'text-[28px] sm:text-[34px]' : 'text-[26px] sm:text-[32px]',
         )}
       >
         {children}
       </h1>
       {deva ? (
-        <span className={cn('deva', size === 'lg' ? 'text-[26px]' : 'text-[24px]')}>
+        <span
+          className={cn(
+            'deva',
+            size === 'lg' ? 'text-[21px] sm:text-[26px]' : 'text-[20px] sm:text-[24px]',
+          )}
+        >
           {deva}
         </span>
       ) : null}

@@ -26,7 +26,7 @@ import type { Permission, User } from '@/types'
  * a devotee without `chat.view` simply does not see Chat.
  */
 
-interface NavItem {
+export interface NavItem {
   href: string
   label: string
   icon: Icon
@@ -34,7 +34,8 @@ interface NavItem {
   badge?: number
 }
 
-export function Sidebar({
+/** Permission-filtered primary navigation, shared by the rail and the phone tab bar. */
+export function navItemsFor({
   user,
   unreadChat = 0,
   unreadNotifications = 0,
@@ -42,10 +43,8 @@ export function Sidebar({
   user: User
   unreadChat?: number
   unreadNotifications?: number
-}) {
-  const pathname = usePathname()
-
-  const items = (
+}): NavItem[] {
+  return (
     [
       { href: '/', label: 'Home', icon: House, permission: 'feed.view' },
       {
@@ -82,11 +81,36 @@ export function Sidebar({
       },
     ] satisfies NavItem[]
   ).filter((item) => can(user, item.permission))
+}
+
+export function isActive(pathname: string, href: string) {
+  return href === '/' ? pathname === '/' : pathname.startsWith(href)
+}
+
+export function Sidebar({
+  user,
+  unreadChat = 0,
+  unreadNotifications = 0,
+  className,
+}: {
+  user: User
+  unreadChat?: number
+  unreadNotifications?: number
+  className?: string
+}) {
+  const pathname = usePathname()
+
+  const items = navItemsFor({ user, unreadChat, unreadNotifications })
 
   const showAdmin = canAny(user, ADMIN_PERMISSIONS_ANY)
 
   return (
-    <aside className="flex h-full w-[248px] shrink-0 flex-col gap-[26px] border-r border-line bg-rail px-[18px] pb-6 pt-[30px]">
+    <aside
+      className={cn(
+        'flex h-full w-[248px] shrink-0 flex-col gap-[26px] border-r border-line bg-rail px-[18px] pb-6 pt-[30px]',
+        className,
+      )}
+    >
       <div className="flex flex-col gap-0.5 px-2.5">
         <Link
           href="/"
@@ -108,8 +132,7 @@ export function Sidebar({
 
       <nav className="flex flex-col gap-0.5">
         {items.map((item) => {
-          const active =
-            item.href === '/' ? pathname === '/' : pathname.startsWith(item.href)
+          const active = isActive(pathname, item.href)
           const IconCmp = item.icon
           return (
             <Link

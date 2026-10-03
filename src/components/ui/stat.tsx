@@ -26,7 +26,7 @@ export function Stat({
     >
       <span
         className={cn(
-          'text-[28px] font-extralight leading-none',
+          'text-[24px] font-extralight leading-none sm:text-[28px]',
           accent && 'text-terracotta',
         )}
       >

@@ -22,7 +22,7 @@ export default function FlagsPage() {
     )
 
   return (
-    <Main className="gap-7 px-12 py-10">
+    <Main className="gap-6 lg:gap-7 px-5 lg:px-12 py-6 lg:py-10">
       <header className="flex items-end justify-between gap-6">
         <PageTitle deva="श्रेणियाँ">Flags</PageTitle>
         <Button variant="accent">New flag</Button>
@@ -35,10 +35,10 @@ export default function FlagsPage() {
       </p>
 
       <div className="flex max-w-[860px] flex-col pb-12">
-        <div className="grid grid-cols-[28px_1fr_160px_100px_90px] gap-4 border-b border-line pb-2 text-[11px] uppercase tracking-[0.1em] text-muted-2">
+        <div className="grid grid-cols-[20px_1fr_64px_48px] items-end gap-3 border-b border-line pb-2 text-[11px] uppercase tracking-[0.1em] text-muted-2 sm:grid-cols-[28px_1fr_160px_100px_90px] sm:gap-4">
           <span />
           <span>Label</span>
-          <span>Identifier</span>
+          <span className="hidden sm:block">Identifier</span>
           <span>Users can post</span>
           <span>Active</span>
         </div>
@@ -47,7 +47,7 @@ export default function FlagsPage() {
           <div
             key={flag.id}
             className={cn(
-              'grid grid-cols-[28px_1fr_160px_100px_90px] items-center gap-4 border-b border-line py-3',
+              'grid grid-cols-[20px_1fr_64px_48px] items-center gap-3 border-b border-line py-3 sm:grid-cols-[28px_1fr_160px_100px_90px] sm:gap-4',
               !flag.active && 'opacity-50',
             )}
           >
@@ -59,7 +59,7 @@ export default function FlagsPage() {
               <DotsSixVertical size={16} weight="light" />
             </button>
 
-            <span className="flex items-center gap-2.5">
+            <span className="flex min-w-0 items-center gap-2.5">
               <Dot color={flag.color} size={8} />
               <span className="text-[15px] font-light text-ink">
                 {flag.label}
@@ -69,7 +69,9 @@ export default function FlagsPage() {
               ) : null}
             </span>
 
-            <code className="font-mono text-[12px] text-muted">{flag.id}</code>
+            <code className="hidden font-mono text-[12px] text-muted sm:block">
+              {flag.id}
+            </code>
 
             <input
               type="checkbox"

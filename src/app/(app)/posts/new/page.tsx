@@ -50,9 +50,9 @@ export default function CreatePostPage() {
 
   return (
     <Main padded={false}>
-      <div className="flex justify-center gap-14 px-14 py-8">
+      <div className="flex justify-center gap-14 px-4 pb-6 pt-[max(16px,env(safe-area-inset-top))] sm:px-8 lg:px-14 lg:py-8">
         <form
-          className="flex w-[720px] flex-col gap-[26px]"
+          className="flex w-full max-w-[720px] flex-col gap-5 sm:gap-[26px]"
           onSubmit={(e) => {
             e.preventDefault()
             // Wired to POST /posts in the real client.
@@ -74,13 +74,15 @@ export default function CreatePostPage() {
           </div>
 
           <div className="flex items-baseline gap-3.5">
-            <h1 className="m-0 text-[32px] font-light leading-[1.1]">New post</h1>
-            <span className="deva text-[24px]">नई पोस्ट</span>
+            <h1 className="m-0 text-[26px] font-light leading-[1.1] sm:text-[32px]">
+              New post
+            </h1>
+            <span className="deva text-[20px] sm:text-[24px]">नई पोस्ट</span>
           </div>
 
           <fieldset className="flex flex-col gap-2.5 border-0 p-0">
             <legend className="mb-2.5 p-0 text-[13px] text-ink-4">Flag</legend>
-            <div className="flex flex-wrap gap-2 text-[14px] font-light text-ink-4">
+            <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 text-[14px] font-light text-ink-4 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
               {FLAGS.filter((f) => f.active).map((flag) => {
                 const selected = flag.id === flagId
                 // Admin-controlled: some flags are not open to devotees.
@@ -94,7 +96,7 @@ export default function CreatePostPage() {
                     title={locked ? 'Only administrators may post announcements' : undefined}
                     onClick={() => setFlagId(flag.id)}
                     className={cn(
-                      'flex items-center gap-[7px] rounded-[8px] border px-3.5 py-1.5 transition-colors',
+                      'flex shrink-0 items-center gap-[7px] rounded-[8px] border px-3.5 py-1.5 transition-colors',
                       selected
                         ? 'border-tulsi bg-tulsi-tint text-tulsi-ink'
                         : 'border-line-strong hover:border-line-deep',
@@ -117,10 +119,10 @@ export default function CreatePostPage() {
               placeholder="Title"
               aria-label="Post title"
               maxLength={160}
-              className="border-b border-line-soft bg-transparent px-[22px] pb-3 pt-5 text-[24px] font-light leading-[1.3] text-ink placeholder:text-muted-2 focus:outline-none"
+              className="border-b border-line-soft bg-transparent px-4 pb-3 pt-4 text-[21px] sm:px-[22px] sm:pt-5 sm:text-[24px] font-light leading-[1.3] text-ink placeholder:text-muted-2 focus:outline-none"
             />
 
-            <div className="flex gap-4 border-b border-line-soft px-[22px] py-2.5 text-[18px] text-ink-5">
+            <div className="no-scrollbar flex gap-5 overflow-x-auto border-b border-line-soft px-4 py-2.5 text-[18px] text-ink-5 sm:gap-4 sm:px-[22px]">
               {[TextB, TextItalic, ListBullets, Quotes, LinkSimple, At].map(
                 (Icon, i) => (
                   <button
@@ -142,10 +144,10 @@ export default function CreatePostPage() {
               onChange={(e) => setBody(e.target.value)}
               placeholder="Share your question, experience or recipe with the parivar…"
               aria-label="Post body"
-              className="h-[190px] resize-none bg-transparent px-[22px] py-4 text-[16px] font-light leading-[1.65] text-ink-2 placeholder:text-muted-2 focus:outline-none"
+              className="h-[220px] resize-none bg-transparent px-4 py-4 sm:h-[190px] sm:px-[22px] text-[16px] font-light leading-[1.65] text-ink-2 placeholder:text-muted-2 focus:outline-none"
             />
 
-            <div className="flex items-center gap-2 border-t border-line-soft px-4 py-3 text-[13px] font-light text-ink-4">
+            <div className="flex items-center gap-1 border-t border-line-soft px-2 py-2 text-[13px] font-light text-ink-4 sm:gap-2 sm:px-4 sm:py-3">
               {[
                 { Icon: ImageIcon, label: 'Image' },
                 { Icon: YoutubeLogo, label: 'YouTube' },
@@ -163,7 +165,7 @@ export default function CreatePostPage() {
             </div>
           </div>
 
-          <div className="flex justify-end gap-2.5">
+          <div className="flex justify-end gap-2.5 max-sm:[&>*]:flex-1">
             <Button type="button" variant="outline">
               Preview
             </Button>
@@ -173,7 +175,7 @@ export default function CreatePostPage() {
           </div>
         </form>
 
-        <aside className="flex w-[260px] flex-col gap-3 pt-[118px] text-[14px] font-light leading-[1.55] text-ink-4">
+        <aside className="hidden w-[260px] shrink-0 flex-col xl:flex gap-3 pt-[118px] text-[14px] font-light leading-[1.55] text-ink-4">
           <span className="text-[14px] font-normal text-ink">Before you post</span>
           <span>Choose the flag that fits best so others can find it.</span>
           <span>

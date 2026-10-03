@@ -15,7 +15,7 @@ export default function LoginPage() {
   const router = useRouter()
 
   return (
-    <div className="flex flex-col gap-6 rounded-[14px] border border-line bg-surface p-7">
+    <div className="flex flex-col gap-6 rounded-[14px] border border-line bg-surface p-5 sm:p-7">
       <div className="flex flex-col gap-1.5 text-center">
         <h1 className="m-0 text-[24px] font-light">Welcome back</h1>
         <p className="m-0 text-[14px] font-light leading-[1.55] text-muted">

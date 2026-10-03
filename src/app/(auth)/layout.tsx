@@ -7,7 +7,7 @@ export default function AuthLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-ground px-6 py-12">
+    <div className="flex min-h-dvh items-center justify-center bg-ground px-5 py-10 sm:px-6 sm:py-12">
       <div className="flex w-full max-w-[420px] flex-col gap-8">
         <Link href="/" className="flex flex-col items-center gap-1 hover:text-ink">
           <span className="text-[20px] tracking-[0.28em] text-ink">VCG</span>

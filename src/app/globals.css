@@ -68,6 +68,8 @@
 
   html {
     -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
   }
 
@@ -147,6 +149,15 @@
         transparent 1px 10px
       ),
       var(--color-fill-5);
+  }
+
+  /* Horizontal chip and tab rows on phones scroll without a visible bar. */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 
   /* Thin scrollbars so scroll regions don't break the hairline aesthetic. */

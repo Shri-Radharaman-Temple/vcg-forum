@@ -40,7 +40,7 @@ export default function PostDetailPage() {
 
   return (
     <>
-      <Main className="gap-[22px] px-14 pb-0 pt-8">
+      <Main className="gap-[22px] px-5 lg:px-14 pb-0 pt-5 lg:pt-8">
         <Link
           href="/"
           className="flex items-center gap-2 text-[14px] font-light text-ink-5 hover:text-ink"
@@ -50,7 +50,7 @@ export default function PostDetailPage() {
         </Link>
 
         <article className="flex max-w-[700px] flex-col gap-3.5">
-          <div className="flex items-center gap-2.5 text-[13px] font-light text-muted">
+          <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[13px] font-light text-muted">
             <Avatar
               initials={post.author.initials}
               tone={post.author.avatarTone}
@@ -62,7 +62,7 @@ export default function PostDetailPage() {
             <span>·</span>
             <span>{post.timeAgo}</span>
             <span
-              className="ml-1.5 flex items-center gap-1.5"
+              className="flex items-center gap-1.5 sm:ml-1.5"
               style={{ color: flag.color }}
             >
               <Dot color={flag.color} />
@@ -70,7 +70,7 @@ export default function PostDetailPage() {
             </span>
           </div>
 
-          <h1 className="m-0 text-[32px] font-light leading-[1.25]">
+          <h1 className="m-0 text-[24px] font-light leading-[1.25] sm:text-[32px]">
             {post.title}
           </h1>
 
@@ -82,7 +82,7 @@ export default function PostDetailPage() {
 
           {post.media?.length ? (
             <div
-              className="grid h-[300px] gap-1.5"
+              className="grid h-[200px] gap-1.5 sm:h-[300px]"
               style={{
                 gridTemplateColumns: post.media.map((m) => `${m.span}fr`).join(' '),
               }}
@@ -133,10 +133,11 @@ export default function PostDetailPage() {
               onClick={() =>
                 void navigator.clipboard?.writeText(window.location.href)
               }
+              aria-label="Copy link"
               className="flex items-center gap-[7px] rounded-[8px] border border-line-strong px-3 py-1.5 transition-colors hover:border-line-deep"
             >
               <LinkSimple size={17} weight="light" />
-              Copy link
+              <span className="hidden sm:inline">Copy link</span>
             </button>
 
             <span className="flex-1" />
@@ -144,10 +145,11 @@ export default function PostDetailPage() {
             {can(user, 'feed.report') ? (
               <button
                 type="button"
+                aria-label="Report"
                 className="flex items-center gap-1.5 text-muted transition-colors hover:text-ink"
               >
                 <FlagIcon size={16} weight="light" />
-                Report
+                <span className="hidden sm:inline">Report</span>
               </button>
             ) : null}
           </div>
@@ -167,7 +169,7 @@ export default function PostDetailPage() {
                   onChange={(e) => setDraft(e.target.value)}
                   placeholder="Add a comment…"
                   aria-label="Add a comment"
-                  className="h-8 flex-1 bg-transparent text-[14px] font-light text-ink placeholder:text-muted-2 focus:outline-none"
+                  className="h-8 flex-1 bg-transparent text-[14px] font-light text-ink placeholder:text-muted-2 focus:outline-none max-lg:text-[16px]"
                 />
                 <button
                   type="button"
@@ -275,7 +277,7 @@ function CommentThread({ comment }: { comment: Comment }) {
               autoFocus
               placeholder={`Reply to ${comment.author.name}…`}
               aria-label={`Reply to ${comment.author.name}`}
-              className="h-9 flex-1 rounded-[8px] border border-line-strong bg-surface px-3 text-[14px] font-light text-ink placeholder:text-muted-2 focus:border-tulsi focus:outline-none"
+              className="h-9 flex-1 rounded-[8px] border border-line-strong bg-surface px-3 text-[14px] font-light text-ink placeholder:text-muted-2 focus:border-tulsi focus:outline-none max-lg:text-[16px]"
             />
             <button
               type="button"

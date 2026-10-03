@@ -46,8 +46,8 @@ export default function NotificationsPage() {
 
   return (
     <>
-      <Main className="gap-7 px-14 py-10">
-        <header className="flex items-end justify-between gap-6">
+      <Main className="gap-6 lg:gap-7 px-5 lg:px-14 py-6 lg:py-10">
+        <header className="flex flex-wrap items-end justify-between gap-4 sm:gap-6">
           <PageTitle deva="सूचनाएँ">Notifications</PageTitle>
           {unread > 0 ? (
             <Button
@@ -82,7 +82,7 @@ export default function NotificationsPage() {
                     )
                   }
                   className={cn(
-                    'flex items-start gap-3.5 border-b border-line px-3 py-3.5 transition-colors hover:bg-[#EFE8DC]',
+                    '-mx-5 flex items-start gap-3.5 border-b border-line px-5 py-3.5 transition-colors hover:bg-[#EFE8DC] lg:mx-0 lg:px-3',
                     !n.read && 'bg-tulsi-tint/40',
                   )}
                 >
@@ -115,7 +115,7 @@ export default function NotificationsPage() {
         </div>
       </Main>
 
-      <Rail width={320} className="px-7">
+      <Rail width={320} className="lg:px-7">
         <div className="flex flex-col gap-4">
           <SectionHead title="Preferences" />
           <p className="m-0 text-[13px] font-light leading-[1.55] text-muted">

@@ -33,17 +33,18 @@ export default function ProfilePage() {
 
   return (
     <>
-      <Main className="gap-7 px-14 py-10">
-        <header className="flex items-start gap-6">
+      <Main className="gap-6 lg:gap-7 px-5 lg:px-14 py-6 lg:py-10">
+        <header className="flex flex-wrap items-start gap-4 sm:flex-nowrap sm:gap-6">
           <Avatar
             initials={user.initials}
             tone={user.avatarTone}
             src={user.avatarUrl}
             size="2xl"
+            className="h-[72px] w-[72px] text-[22px] sm:h-24 sm:w-24 sm:text-[28px]"
           />
-          <div className="flex flex-1 flex-col gap-2">
-            <div className="flex items-baseline gap-3.5">
-              <h1 className="m-0 text-[32px] font-light leading-[1.1]">
+          <div className="flex min-w-0 flex-1 basis-[180px] flex-col gap-2">
+            <div className="flex flex-wrap items-baseline gap-x-3.5">
+              <h1 className="m-0 text-[26px] font-light leading-[1.1] sm:text-[32px]">
                 {user.name}
               </h1>
               {user.initiatedName && user.initiatedName !== user.name ? (
@@ -55,7 +56,7 @@ export default function ProfilePage() {
                 {user.bio}
               </p>
             ) : null}
-            <div className="flex flex-wrap items-center gap-5 text-[13px] font-light text-muted">
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-[13px] font-light text-muted">
               {user.location ? (
                 <span className="flex items-center gap-1.5">
                   <MapPin size={15} weight="light" />
@@ -69,7 +70,9 @@ export default function ProfilePage() {
               <span>{roleNames}</span>
             </div>
           </div>
-          <Button variant="outline">Edit profile</Button>
+          <Button variant="outline" className="max-sm:w-full">
+            Edit profile
+          </Button>
         </header>
 
         <Tabs value={tab} onValueChange={(v) => setTab(v as Tab)}>
@@ -97,7 +100,7 @@ export default function ProfilePage() {
         </div>
       </Main>
 
-      <Rail width={300} className="px-7">
+      <Rail width={300} className="lg:px-7">
         <div className="flex flex-col gap-3">
           <SectionHead title="Privacy" />
           {[

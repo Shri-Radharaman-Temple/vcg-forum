@@ -48,7 +48,7 @@ export default function AdminLayout({
 
   if (!canAny(user, ADMIN_PERMISSIONS_ANY)) {
     return (
-      <div className="flex flex-1 items-center justify-center px-14">
+      <div className="flex flex-1 items-center justify-center px-6 py-16 lg:px-14">
         <div className="flex max-w-[440px] flex-col items-center gap-3 text-center">
           <h1 className="m-0 text-[24px] font-light">Not available</h1>
           <p className="m-0 text-[15px] font-light leading-[1.65] text-ink-4">
@@ -65,19 +65,20 @@ export default function AdminLayout({
 
   return (
     <>
-      <nav className="flex w-[216px] shrink-0 flex-col gap-6 border-r border-line px-5 py-10">
+      {/* A horizontal strip of sections on phones, the 216px column from lg. */}
+      <nav className="no-scrollbar flex shrink-0 items-center gap-1 overflow-x-auto border-b border-line px-4 py-2.5 lg:w-[216px] lg:flex-col lg:items-stretch lg:gap-6 lg:overflow-visible lg:border-b-0 lg:border-r lg:px-5 lg:py-10">
         <Link
           href="/"
-          className="flex items-center gap-2 text-[13px] font-light text-ink-5 hover:text-ink"
+          className="hidden items-center gap-2 text-[13px] font-light text-ink-5 hover:text-ink lg:flex"
         >
           <ArrowLeft size={15} weight="light" />
           Back to app
         </Link>
 
         {NAV.map((section) => (
-          <div key={section.group} className="flex flex-col gap-1">
+          <div key={section.group} className="flex shrink-0 gap-1 lg:flex-col">
             {section.group ? (
-              <span className="mb-1 px-2.5 text-[11px] uppercase tracking-[0.12em] text-muted-2">
+              <span className="mb-1 hidden px-2.5 text-[11px] uppercase tracking-[0.12em] text-muted-2 lg:block">
                 {section.group}
               </span>
             ) : null}
@@ -93,7 +94,7 @@ export default function AdminLayout({
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'rounded-[8px] px-2.5 py-1.5 text-[14px] transition-colors',
+                    'whitespace-nowrap rounded-[8px] px-2.5 py-1.5 text-[14px] transition-colors',
                     active
                       ? 'bg-tulsi-tint font-normal text-tulsi-ink hover:text-tulsi-ink'
                       : 'font-light text-ink-4 hover:bg-[#EAE2D6] hover:text-ink-4',

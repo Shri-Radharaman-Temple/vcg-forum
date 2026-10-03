@@ -19,7 +19,7 @@ export default function RegisterPage() {
     // Re-issues the session in its pending state; AppShell renders the
     // approval-pending screen from there.
     return (
-      <div className="flex flex-col gap-4 rounded-[14px] border border-line bg-surface p-7 text-center">
+      <div className="flex flex-col gap-4 rounded-[14px] border border-line bg-surface p-5 sm:p-7 text-center">
         <h1 className="m-0 text-[22px] font-light">Registration received</h1>
         <p className="m-0 text-[15px] font-light leading-[1.6] text-ink-4">
           Your account has been submitted for approval. You will be notified once
@@ -34,7 +34,7 @@ export default function RegisterPage() {
 
   return (
     <form
-      className="flex flex-col gap-4 rounded-[14px] border border-line bg-surface p-7"
+      className="flex flex-col gap-4 rounded-[14px] border border-line bg-surface p-5 sm:p-7"
       onSubmit={(e) => {
         e.preventDefault()
         actAs({ status: 'PENDING_APPROVAL' })

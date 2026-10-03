@@ -41,7 +41,7 @@ export default function ResourceDetailPage() {
 
   return (
     <>
-      <Main className="gap-7 px-14 py-8">
+      <Main className="gap-6 lg:gap-7 px-5 lg:px-14 py-5 lg:py-8">
         <Link
           href="/resources"
           className="flex items-center gap-2 text-[14px] font-light text-ink-5 hover:text-ink"
@@ -51,14 +51,16 @@ export default function ResourceDetailPage() {
           <span className="capitalize">{resource.kind}s</span>
         </Link>
 
-        <div className="flex gap-14 pb-12">
-          <div className="flex w-[260px] shrink-0 flex-col gap-4">
+        <div className="flex flex-col gap-7 pb-12 sm:flex-row sm:gap-10 xl:gap-14">
+          {/* Phones read cover → title and actions → facts, so this column
+              dissolves into the parent's flow below `sm`. */}
+          <div className="flex shrink-0 flex-col gap-4 max-sm:contents sm:w-[200px] xl:w-[260px]">
             <MediaPlaceholder
               label={resource.title}
               src={bookCover(resource.id)}
-              className="aspect-[3/4] rounded-[8px]"
+              className="mx-auto aspect-[3/4] w-[160px] rounded-[8px] max-sm:order-1 sm:w-full"
             />
-            <dl className="m-0 flex flex-col gap-2 text-[13px] font-light text-ink-4">
+            <dl className="m-0 flex flex-col gap-2 text-[13px] font-light text-ink-4 max-sm:order-3">
               {facts.map(([k, v]) => (
                 <div
                   key={k}
@@ -71,14 +73,14 @@ export default function ResourceDetailPage() {
             </dl>
           </div>
 
-          <div className="flex max-w-[620px] flex-1 flex-col gap-[18px]">
+          <div className="flex min-w-0 max-w-[620px] flex-1 flex-col gap-[18px] max-sm:order-2">
             <div className="flex flex-col gap-1">
               {resource.devanagariTitle ? (
                 <span className="deva text-[20px]">
                   {resource.devanagariTitle}
                 </span>
               ) : null}
-              <h1 className="m-0 text-[38px] font-light leading-[1.15]">
+              <h1 className="m-0 text-[28px] font-light leading-[1.15] sm:text-[38px]">
                 {resource.title}
               </h1>
               <span className="text-[16px] font-light text-ink-5">
@@ -86,10 +88,10 @@ export default function ResourceDetailPage() {
               </span>
             </div>
 
-            <div className="flex gap-2.5">
+            <div className="flex flex-wrap gap-2.5">
               <button
                 type="button"
-                className="flex items-center gap-2 rounded-[10px] bg-tulsi px-[22px] py-2.5 text-[15px] text-[#F7F2EA] transition-colors hover:bg-tulsi-ink"
+                className="flex items-center justify-center gap-2 whitespace-nowrap rounded-[10px] bg-tulsi max-sm:flex-1 px-[22px] py-2.5 text-[15px] text-[#F7F2EA] transition-colors hover:bg-tulsi-ink"
               >
                 <BookOpen size={18} weight="light" />
                 {resource.progress
@@ -163,7 +165,7 @@ export default function ResourceDetailPage() {
         </div>
       </Main>
 
-      <Rail width={300} className="gap-3.5 px-7">
+      <Rail width={300} className="gap-3.5 lg:px-7">
         <span className="text-[15px]">Related</span>
         {(resource.related ?? []).map((r) => (
           <Link

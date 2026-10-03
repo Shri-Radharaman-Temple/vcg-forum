@@ -105,17 +105,17 @@ export default function UsersPage() {
   )
 
   return (
-    <Main className="gap-7 px-12 py-10">
-      <header className="flex items-end justify-between gap-6">
+    <Main className="gap-6 lg:gap-7 px-5 lg:px-12 py-6 lg:py-10">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
         <PageTitle deva="सदस्य">Users</PageTitle>
-        <label className="flex h-10 w-[300px] items-center gap-2.5 rounded-[10px] border border-line-strong bg-surface px-3.5 focus-within:border-tulsi">
+        <label className="flex h-10 w-full items-center sm:w-[300px] gap-2.5 rounded-[10px] border border-line-strong bg-surface px-3.5 focus-within:border-tulsi">
           <MagnifyingGlass size={17} weight="light" className="text-muted-2" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search name or email"
             aria-label="Search users"
-            className="flex-1 bg-transparent text-[14px] font-light placeholder:text-muted-2 focus:outline-none"
+            className="flex-1 bg-transparent text-[14px] font-light placeholder:text-muted-2 focus:outline-none max-lg:text-[16px]"
           />
         </label>
       </header>
@@ -129,7 +129,7 @@ export default function UsersPage() {
       </Tabs>
 
       <div className="flex max-w-[900px] flex-col pb-12">
-        <div className="grid grid-cols-[1fr_180px_120px_110px] gap-4 border-b border-line pb-2 text-[11px] uppercase tracking-[0.1em] text-muted-2">
+        <div className="hidden grid-cols-[1fr_180px_120px_110px] gap-4 border-b md:grid border-line pb-2 text-[11px] uppercase tracking-[0.1em] text-muted-2">
           <span>Devotee</span>
           <span>Role</span>
           <span>Joined</span>
@@ -144,13 +144,13 @@ export default function UsersPage() {
           rows.map((r) => (
             <div
               key={r.id}
-              className="grid grid-cols-[1fr_180px_120px_110px] items-center gap-4 border-b border-line py-3"
+              className="grid grid-cols-[1fr_auto] items-center gap-x-3 gap-y-2.5 border-b border-line py-3 md:grid-cols-[1fr_180px_120px_110px] md:gap-4"
             >
-              <span className="flex items-center gap-3">
+              <span className="flex min-w-0 items-center gap-3">
                 <Avatar initials={r.initials} tone={r.avatarTone} size="lg" />
-                <span className="flex flex-col">
-                  <span className="text-[15px] text-ink">{r.name}</span>
-                  <span className="text-[12px] font-light text-muted">
+                <span className="flex min-w-0 flex-col">
+                  <span className="truncate text-[15px] text-ink">{r.name}</span>
+                  <span className="truncate text-[12px] font-light text-muted">
                     {r.email}
                   </span>
                 </span>
@@ -160,7 +160,7 @@ export default function UsersPage() {
                 defaultValue={r.role}
                 disabled={!can(user, 'admin.roles.manage')}
                 aria-label={`Role for ${r.name}`}
-                className="h-8 rounded-[8px] border border-line-strong bg-surface px-2 text-[13px] font-light text-ink-2 disabled:opacity-60"
+                className="h-8 rounded-[8px] border border-line-strong bg-surface px-2 text-[13px] font-light text-ink-2 disabled:opacity-60 max-md:order-3 max-lg:text-[16px]"
               >
                 <option value="—">—</option>
                 {ROLES.map((role) => (
@@ -170,7 +170,7 @@ export default function UsersPage() {
                 ))}
               </select>
 
-              <span className="text-[13px] font-light text-muted">
+              <span className="text-[13px] font-light text-muted max-md:order-4 max-md:justify-self-end">
                 {r.joined}
               </span>
 
@@ -178,7 +178,7 @@ export default function UsersPage() {
                 <Button
                   size="sm"
                   variant={r.status === 'SUSPENDED' ? 'outline' : 'danger'}
-                  className={cn('justify-self-start')}
+                  className={cn('justify-self-end max-md:order-2 md:justify-self-start')}
                 >
                   {r.status === 'SUSPENDED' ? 'Restore' : 'Suspend'}
                 </Button>

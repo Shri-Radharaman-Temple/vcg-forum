@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import {
+  CaretLeft,
   ChatCircle,
   DotsThree,
   MagnifyingGlass,
@@ -33,6 +34,9 @@ type Filter = 'all' | 'dm' | 'group'
  *
  * `initialConversationId` lets /chat/[id] open a specific thread, so a
  * notification can deep-link straight to the conversation it refers to.
+ *
+ * On phones only one column shows at a time, like a messaging app: the list
+ * at /chat and the open thread at /chat/[id]; details appear from `xl` up.
  */
 export function ChatView({
   initialConversationId,
@@ -46,6 +50,7 @@ export function ChatView({
       ? initialConversationId
       : conversations[0].id,
   )
+  const [threadOpen, setThreadOpen] = React.useState(Boolean(initialConversationId))
   const [draft, setDraft] = React.useState('')
   const [sent, setSent] = React.useState<Message[]>([])
 
@@ -74,11 +79,52 @@ export function ChatView({
     setDraft('')
   }
 
+  // On phones, opening a thread from the list is a forward step, so the
+  // device back gesture returns to the list rather than leaving chat.
+  const pushedRef = React.useRef(false)
+
+  React.useEffect(() => {
+    const onPop = () => {
+      pushedRef.current = false
+      setThreadOpen(window.location.pathname.startsWith('/chat/'))
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
+
+  const openThread = (id: string) => {
+    setActiveId(id)
+    // Keep the URL in step without a full navigation, so the open thread can
+    // be copied, bookmarked or reloaded.
+    const phone = window.matchMedia('(max-width: 1023.98px)').matches
+    if (phone && !threadOpen) {
+      window.history.pushState(null, '', `/chat/${id}`)
+      pushedRef.current = true
+    } else {
+      window.history.replaceState(null, '', `/chat/${id}`)
+    }
+    setThreadOpen(true)
+  }
+
+  const closeThread = () => {
+    if (pushedRef.current) {
+      window.history.back()
+      return
+    }
+    setThreadOpen(false)
+    window.history.replaceState(null, '', '/chat')
+  }
+
   return (
-    <>
+    <div className="flex min-h-0 min-w-0 flex-1">
       {/* Conversation list */}
-      <div className="flex w-[320px] shrink-0 flex-col border-r border-line">
-        <div className="flex flex-col gap-3.5 px-6 pb-4 pt-10">
+      <div
+        className={cn(
+          'w-full shrink-0 flex-col border-line lg:flex lg:w-[320px] lg:border-r',
+          threadOpen ? 'hidden' : 'flex',
+        )}
+      >
+        <div className="flex flex-col gap-3.5 px-5 pb-4 pt-5 lg:px-6 lg:pt-10">
           <div className="flex items-center justify-between">
             <h1 className="m-0 text-[28px] font-light leading-none">Chat</h1>
             {can(user, 'chat.group.create') ? (
@@ -97,7 +143,7 @@ export function ChatView({
             <input
               placeholder="Search conversations"
               aria-label="Search conversations"
-              className="flex-1 bg-transparent text-[14px] font-light placeholder:text-muted-2 focus:outline-none"
+              className="flex-1 bg-transparent text-[14px] font-light placeholder:text-muted-2 focus:outline-none max-lg:text-[16px]"
             />
           </label>
 
@@ -110,20 +156,15 @@ export function ChatView({
           </Tabs>
         </div>
 
-        <div className="scroll-quiet flex-1 overflow-y-auto">
+        <div className="scroll-quiet min-h-0 flex-1 overflow-y-auto overscroll-contain">
           {list.map((c) => (
             <button
               key={c.id}
               type="button"
-              onClick={() => {
-                setActiveId(c.id)
-                // Keep the URL in step without a full navigation, so the open
-                // thread can be copied, bookmarked or reloaded.
-                window.history.replaceState(null, '', `/chat/${c.id}`)
-              }}
+              onClick={() => openThread(c.id)}
               className={cn(
-                'flex w-full items-start gap-3 border-b border-line px-6 py-3.5 text-left transition-colors',
-                c.id === activeId ? 'bg-tulsi-tint/60' : 'hover:bg-[#EFE8DC]',
+                'flex w-full items-start gap-3 border-b border-line px-5 py-3.5 text-left transition-colors lg:px-6',
+                c.id === activeId ? 'lg:bg-tulsi-tint/60' : 'hover:bg-[#EFE8DC]',
               )}
             >
               <span className="relative">
@@ -157,15 +198,28 @@ export function ChatView({
 
       {/* Thread */}
       {active ? (
-        <main className="flex min-w-0 flex-1 flex-col">
-          <header className="flex items-center gap-3 border-b border-line px-8 py-[18px]">
+        <main
+          className={cn(
+            'min-w-0 flex-1 flex-col lg:flex',
+            threadOpen ? 'flex' : 'hidden',
+          )}
+        >
+          <header className="flex items-center gap-3 border-b border-line bg-ground px-3 pb-3 pt-[max(12px,env(safe-area-inset-top))] lg:px-8 lg:py-[18px]">
+            <button
+              type="button"
+              onClick={closeThread}
+              aria-label="Back to conversations"
+              className="-mr-1 flex h-10 w-8 items-center justify-center text-ink-4 lg:hidden"
+            >
+              <CaretLeft size={22} weight="light" />
+            </button>
             <Avatar
               initials={active.initials}
               tone={active.avatarTone}
               size="lg"
             />
-            <div className="flex flex-col">
-              <span className="text-[16px] text-ink">{active.name}</span>
+            <div className="flex min-w-0 flex-col">
+              <span className="truncate text-[16px] text-ink">{active.name}</span>
               <span className="text-[12px] font-light text-muted">
                 {active.kind === 'group'
                   ? `${active.memberCount} members`
@@ -184,7 +238,7 @@ export function ChatView({
             </button>
           </header>
 
-          <div className="scroll-quiet flex flex-1 flex-col gap-4 overflow-y-auto px-8 py-6">
+          <div className="scroll-quiet flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto overscroll-contain px-4 py-5 lg:px-8 lg:py-6">
             {messages.length === 0 ? (
               <EmptyState
                 icon={ChatCircle}
@@ -198,7 +252,7 @@ export function ChatView({
           </div>
 
           {can(user, 'chat.dm') ? (
-            <div className="flex items-center gap-2.5 border-t border-line px-8 py-4">
+            <div className="flex items-center gap-2.5 border-t border-line px-3 pb-[max(12px,env(safe-area-inset-bottom))] pt-3 lg:px-8 lg:py-4">
               <button
                 type="button"
                 aria-label="Attach file"
@@ -217,7 +271,7 @@ export function ChatView({
                 }}
                 placeholder="Write a message…"
                 aria-label="Message"
-                className="h-10 flex-1 rounded-[10px] border border-line-strong bg-surface px-3.5 text-[15px] font-light placeholder:text-muted-2 focus:border-tulsi focus:outline-none"
+                className="h-10 flex-1 rounded-[10px] border border-line-strong bg-surface px-3.5 text-[15px] font-light placeholder:text-muted-2 focus:border-tulsi focus:outline-none max-lg:text-[16px]"
               />
               <button
                 type="button"
@@ -235,7 +289,7 @@ export function ChatView({
 
       {/* Details rail */}
       {active ? (
-        <aside className="scroll-quiet flex w-[280px] shrink-0 flex-col gap-6 overflow-y-auto border-l border-line px-7 py-10">
+        <aside className="scroll-quiet hidden w-[280px] shrink-0 flex-col gap-6 overflow-y-auto border-l border-line px-7 py-10 xl:flex">
           <div className="flex flex-col items-center gap-2.5 text-center">
             <Avatar
               initials={active.initials}
@@ -275,7 +329,7 @@ export function ChatView({
           </div>
         </aside>
       ) : null}
-    </>
+    </div>
   )
 }
 
@@ -283,7 +337,7 @@ function Bubble({ message }: { message: Message }) {
   return (
     <div
       className={cn(
-        'flex max-w-[70%] gap-2.5',
+        'flex max-w-[85%] gap-2.5 lg:max-w-[70%]',
         message.mine && 'ml-auto flex-row-reverse',
       )}
     >

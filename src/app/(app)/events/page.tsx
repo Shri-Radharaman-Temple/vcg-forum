@@ -27,8 +27,8 @@ export default function EventsPage() {
 
   return (
     <>
-      <Main className="gap-6 py-10 pl-14 pr-12">
-        <header className="flex items-end justify-between">
+      <Main className="gap-6 py-6 lg:py-10 px-5 lg:pl-14 lg:pr-12">
+        <header className="flex flex-wrap items-end justify-between gap-4">
           <PageTitle deva="उत्सव">Events</PageTitle>
           <Tabs value={view} onValueChange={(v) => setView(v as View)}>
             <SegmentedList>
@@ -54,8 +54,8 @@ export default function EventsPage() {
           >
             <CaretRight size={18} weight="light" />
           </button>
-          <span className="text-[22px] font-light">October 2026</span>
-          <span className="text-[14px] font-light text-muted">
+          <span className="text-[20px] font-light sm:text-[22px]">October 2026</span>
+          <span className="truncate text-[14px] font-light text-muted">
             Ashwin – Kartik
           </span>
         </div>
@@ -65,7 +65,7 @@ export default function EventsPage() {
         {view === 'agenda' ? <AgendaList /> : null}
       </Main>
 
-      <Rail width={320} className="gap-1.5 px-7">
+      <Rail width={320} className="gap-1.5 lg:px-7">
         <span className="mb-2.5 text-[15px]">Upcoming</span>
         {events.map((e) => (
           <Link
@@ -99,13 +99,7 @@ export default function EventsPage() {
 function MonthGrid({ cells }: { cells: CalendarCell[] }) {
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[12px] border border-line bg-surface">
-      <div className="grid grid-cols-7 border-b border-line text-[11px] tracking-[0.1em] text-muted">
-        {WEEKDAYS.map((d) => (
-          <span key={d} className="px-3 py-2.5">
-            {d}
-          </span>
-        ))}
-      </div>
+      <WeekdayHeader />
       <div className="grid flex-1 auto-rows-fr grid-cols-7">
         {cells.map((c, i) => (
           <DayCell key={i} cell={c} />
@@ -119,7 +113,7 @@ function DayCell({ cell }: { cell: CalendarCell }) {
   return (
     <div
       className={cn(
-        'flex min-w-0 flex-col gap-1 border-b border-r border-line-soft px-2.5 py-2',
+        'flex min-h-[58px] min-w-0 flex-col gap-1 border-b border-r border-line-soft px-1.5 py-1.5 sm:min-h-[84px] sm:px-2.5 sm:py-2',
         cell.outside && 'bg-ground',
       )}
     >
@@ -137,16 +131,30 @@ function DayCell({ cell }: { cell: CalendarCell }) {
           {cell.day}
         </span>
         {cell.tithi ? (
-          <span className="min-w-0 truncate text-[10px] font-light leading-none text-muted-2">
+          <span className="hidden min-w-0 truncate text-[10px] font-light leading-none text-muted-2 sm:inline">
             {cell.tithi}
           </span>
         ) : null}
       </div>
+      {cell.events.length ? (
+        <span className="mt-auto flex flex-wrap gap-1 sm:hidden">
+          {cell.events.map((ev, i) => (
+            <Link
+              key={`${ev.id}-${i}`}
+              href={`/events/${ev.id}`}
+              aria-label={ev.label}
+              className="flex h-4 items-center"
+            >
+              <Dot color={ev.color} size={6} />
+            </Link>
+          ))}
+        </span>
+      ) : null}
       {cell.events.map((ev, i) => (
         <Link
           key={`${ev.id}-${i}`}
           href={`/events/${ev.id}`}
-          className="flex items-center gap-[5px] overflow-hidden text-ellipsis whitespace-nowrap text-[12px] font-light leading-[1.25] text-ink-2 hover:text-terracotta"
+          className="hidden items-center gap-[5px] overflow-hidden text-ellipsis whitespace-nowrap text-[12px] font-light leading-[1.25] text-ink-2 hover:text-terracotta sm:flex"
         >
           <Dot color={ev.color} size={5} />
           {ev.label}
@@ -160,23 +168,20 @@ function DayCell({ cell }: { cell: CalendarCell }) {
 function WeekGrid({ cells }: { cells: CalendarCell[] }) {
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[12px] border border-line bg-surface">
-      <div className="grid grid-cols-7 border-b border-line text-[11px] tracking-[0.1em] text-muted">
-        {WEEKDAYS.map((d) => (
-          <span key={d} className="px-3 py-2.5">
-            {d}
-          </span>
-        ))}
-      </div>
-      <div className="grid flex-1 grid-cols-7">
+      <WeekdayHeader className="hidden sm:grid" />
+      <div className="grid flex-1 grid-cols-1 sm:grid-cols-7">
         {cells.map((c, i) => (
           <div
             key={i}
             className={cn(
-              'flex min-w-0 flex-col gap-2 border-r border-line-soft px-3 py-3',
+              'flex min-w-0 gap-4 border-b border-line-soft px-4 py-3 last:border-b-0 sm:flex-col sm:gap-2 sm:border-b-0 sm:border-r sm:px-3',
               c.outside && 'bg-ground',
             )}
           >
-            <div className="flex flex-col gap-0.5">
+            <div className="flex w-14 shrink-0 flex-col gap-0.5 sm:w-auto">
+              <span className="text-[11px] tracking-[0.1em] text-muted sm:hidden">
+                {WEEKDAYS[i]}
+              </span>
               <span
                 className={cn(
                   'text-[24px] font-extralight leading-none',
@@ -195,6 +200,12 @@ function WeekGrid({ cells }: { cells: CalendarCell[] }) {
                 </span>
               ) : null}
             </div>
+            <div className="flex min-w-0 flex-1 flex-col gap-2">
+            {c.events.length === 0 ? (
+              <span className="text-[13px] font-light text-muted-2 sm:hidden">
+                No events
+              </span>
+            ) : null}
             {c.events.map((ev, j) => (
               <Link
                 key={`${ev.id}-${j}`}
@@ -205,9 +216,28 @@ function WeekGrid({ cells }: { cells: CalendarCell[] }) {
                 {ev.label}
               </Link>
             ))}
+            </div>
           </div>
         ))}
       </div>
+    </div>
+  )
+}
+
+function WeekdayHeader({ className }: { className?: string }) {
+  return (
+    <div
+      className={cn(
+        'grid grid-cols-7 border-b border-line text-[11px] tracking-[0.1em] text-muted',
+        className,
+      )}
+    >
+      {WEEKDAYS.map((d) => (
+        <span key={d} className="px-1.5 py-2.5 sm:px-3">
+          <span className="sm:hidden">{d.slice(0, 1)}</span>
+          <span className="hidden sm:inline">{d}</span>
+        </span>
+      ))}
     </div>
   )
 }
@@ -219,9 +249,9 @@ function AgendaList() {
         <Link
           key={e.id}
           href={`/events/${e.id}`}
-          className="flex items-baseline gap-6 border-t border-line py-4 hover:text-ink"
+          className="flex items-baseline gap-4 border-t border-line py-4 hover:text-ink sm:gap-6"
         >
-          <span className="flex w-[70px] shrink-0 items-baseline gap-2">
+          <span className="flex w-[52px] shrink-0 flex-col items-start sm:w-[70px] sm:flex-row sm:items-baseline sm:gap-2">
             <span className="text-[26px] font-extralight leading-none text-ink">
               {e.day}
             </span>
@@ -229,7 +259,7 @@ function AgendaList() {
               {e.mon}
             </span>
           </span>
-          <span className="flex flex-1 flex-col gap-1">
+          <span className="flex min-w-0 flex-1 flex-col gap-1">
             <span className="flex items-center gap-2">
               <Dot color={EVENT_COLORS[e.category]} />
               <span className="text-[17px] font-light text-ink">{e.title}</span>
@@ -237,9 +267,14 @@ function AgendaList() {
             <span className="text-[13px] font-light text-muted">
               {EVENT_CATEGORY_LABELS[e.category]} · {e.meta}
             </span>
+            {e.placesLeft ? (
+              <span className="text-[13px] font-light text-terracotta sm:hidden">
+                {e.placesLeft} places left
+              </span>
+            ) : null}
           </span>
           {e.placesLeft ? (
-            <span className="text-[13px] font-light text-terracotta">
+            <span className="hidden shrink-0 text-[13px] font-light text-terracotta sm:inline">
               {e.placesLeft} places left
             </span>
           ) : null}

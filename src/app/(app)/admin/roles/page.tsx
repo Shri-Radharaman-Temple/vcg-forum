@@ -48,21 +48,22 @@ export default function RolesPage() {
     })
 
   return (
-    <Main className="gap-7 px-12 py-10">
+    <Main className="gap-6 lg:gap-7 px-5 lg:px-12 py-6 lg:py-10">
       <header className="flex items-end justify-between gap-6">
         <PageTitle deva="भूमिकाएँ">Roles</PageTitle>
         {allowed ? <Button variant="accent">New role</Button> : null}
       </header>
 
-      <div className="flex gap-10 pb-12">
-        <div className="flex w-[260px] shrink-0 flex-col gap-1.5">
+      <div className="flex flex-col gap-6 pb-12 xl:flex-row xl:gap-10">
+        {/* Roles scroll sideways on narrow screens and stack from xl. */}
+        <div className="no-scrollbar -mx-5 flex shrink-0 gap-1.5 overflow-x-auto px-5 lg:-mx-12 lg:px-12 xl:mx-0 xl:w-[260px] xl:flex-col xl:overflow-visible xl:px-0">
           {ROLES.map((r) => (
             <button
               key={r.id}
               type="button"
               onClick={() => setSelectedId(r.id)}
               className={cn(
-                'flex flex-col gap-0.5 rounded-[10px] border px-3.5 py-3 text-left transition-colors',
+                'flex min-w-[170px] shrink-0 flex-col gap-0.5 rounded-[10px] border px-3.5 py-3 text-left transition-colors xl:min-w-0',
                 r.id === selectedId
                   ? 'border-tulsi bg-tulsi-tint'
                   : 'border-line hover:border-line-deep',
@@ -81,7 +82,7 @@ export default function RolesPage() {
           ))}
         </div>
 
-        <div className="flex flex-1 flex-col gap-5">
+        <div className="flex min-w-0 flex-1 flex-col gap-5">
           <div className="flex flex-col gap-1">
             <span className="text-[20px] font-light text-ink">{role.name}</span>
             <span className="text-[14px] font-light leading-[1.6] text-ink-4">
@@ -101,7 +102,7 @@ export default function RolesPage() {
               <span className="text-[11px] uppercase tracking-[0.12em] text-muted-2">
                 {group}
               </span>
-              <div className="grid grid-cols-3 gap-x-6 gap-y-1">
+              <div className="grid grid-cols-1 gap-x-6 gap-y-1 sm:grid-cols-2 2xl:grid-cols-3">
                 {perms.map((p) => (
                   <label
                     key={p}

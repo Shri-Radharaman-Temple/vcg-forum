@@ -32,7 +32,7 @@ export default function EventDetailPage() {
   const color = EVENT_COLORS[event.category]
 
   return (
-    <Main className="gap-6 px-14 py-8">
+    <Main className="gap-6 px-5 lg:px-14 py-5 lg:py-8">
       <Link
         href="/events"
         className="flex items-center gap-2 text-[14px] font-light text-ink-5 hover:text-ink"
@@ -45,10 +45,10 @@ export default function EventDetailPage() {
         variant="wide"
         src={sceneCover(event.id)}
         label={event.coverLabel ?? `cover · ${event.title}`}
-        className="h-[260px] shrink-0 rounded-[14px]"
+        className="h-[190px] shrink-0 rounded-[14px] sm:h-[260px]"
       />
 
-      <div className="flex gap-14 pb-12">
+      <div className="flex flex-col gap-8 pb-12 xl:flex-row xl:gap-14">
         <div className="flex max-w-[640px] flex-1 flex-col gap-[18px]">
           <div className="flex flex-col gap-1.5">
             <span
@@ -58,7 +58,7 @@ export default function EventDetailPage() {
               <Dot color={color} />
               {EVENT_CATEGORY_LABELS[event.category]}
             </span>
-            <h1 className="m-0 text-[36px] font-light leading-[1.15]">
+            <h1 className="m-0 text-[28px] font-light leading-[1.15] sm:text-[36px]">
               {event.title}
             </h1>
             {event.devanagariTitle ? (
@@ -88,8 +88,9 @@ export default function EventDetailPage() {
           ) : null}
         </div>
 
-        {/* The booking card overlaps the cover image by 80px in the design. */}
-        <aside className="-mt-20 flex w-[320px] shrink-0 select-none flex-col gap-4 self-start rounded-[14px] border border-line bg-surface p-[22px]">
+        {/* The booking card overlaps the cover image by 80px in the design; on
+            narrower screens it follows the description instead. */}
+        <aside className="flex w-full max-w-[640px] shrink-0 select-none flex-col gap-4 self-start rounded-[14px] border border-line bg-surface p-[18px] sm:p-[22px] xl:-mt-20 xl:w-[320px]">
           <Fact
             icon={CalendarBlank}
             primary={event.dateLabel ?? `${event.day} ${event.mon}`}

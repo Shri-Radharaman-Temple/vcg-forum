@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Mukta, Tiro_Devanagari_Hindi } from 'next/font/google'
 import { SessionProvider } from '@/components/app/session'
 import './globals.css'
@@ -25,6 +25,16 @@ export const metadata: Metadata = {
   title: 'VCG · श्री राधारमण परिवार',
   description:
     'A private community for the Radharaman Parivar — sadhna, feed, chat, resources and events.',
+  applicationName: 'VCG',
+  appleWebApp: { capable: true, title: 'VCG', statusBarStyle: 'default' },
+}
+
+/** `viewport-fit=cover` lets the phone chrome pad itself into the safe areas. */
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: '#f1eadf',
 }
 
 export default function RootLayout({

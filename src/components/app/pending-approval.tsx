@@ -47,7 +47,7 @@ export function PendingApproval({ user }: { user: User }) {
   const Icon = state.icon
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-ground px-6">
+    <div className="flex min-h-dvh items-center justify-center bg-ground px-5 py-10 sm:px-6">
       <div className="flex w-full max-w-[520px] flex-col items-center gap-6 text-center">
         <div className="flex flex-col items-center gap-1">
           <span className="text-[20px] tracking-[0.28em] text-ink">VCG</span>
@@ -58,7 +58,7 @@ export function PendingApproval({ user }: { user: User }) {
           <Icon size={28} weight="light" className="text-terracotta-ink" />
         </div>
 
-        <h1 className="m-0 text-[28px] font-light leading-[1.25]">
+        <h1 className="m-0 text-[24px] font-light leading-[1.25] sm:text-[28px]">
           {state.title}
         </h1>
         <p className="m-0 max-w-[420px] text-[15px] font-light leading-[1.65] text-ink-3">

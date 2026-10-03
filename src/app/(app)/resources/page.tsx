@@ -39,17 +39,17 @@ export default function ResourcesPage() {
   const showSections = filter === 'all' && !query
 
   return (
-    <Main className="gap-[30px] px-14 py-10">
-      <header className="flex items-end justify-between gap-6">
+    <Main className="gap-6 lg:gap-[30px] px-5 lg:px-14 py-6 lg:py-10">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
         <PageTitle deva="ग्रन्थ-भण्डार">Resources</PageTitle>
-        <label className="flex h-10 w-[360px] items-center gap-2.5 rounded-[10px] border border-line-strong bg-surface px-3.5 focus-within:border-tulsi">
+        <label className="flex h-10 w-full items-center sm:w-[360px] gap-2.5 rounded-[10px] border border-line-strong bg-surface px-3.5 focus-within:border-tulsi">
           <MagnifyingGlass size={17} weight="light" className="text-muted-2" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search books, audio, videos"
             aria-label="Search resources"
-            className="flex-1 bg-transparent text-[14px] font-light text-ink placeholder:text-muted-2 focus:outline-none"
+            className="flex-1 bg-transparent text-[14px] font-light text-ink placeholder:text-muted-2 focus:outline-none max-lg:text-[16px]"
           />
         </label>
       </header>
@@ -66,20 +66,20 @@ export default function ResourcesPage() {
       </Tabs>
 
       {continueReading && showSections ? (
-        <div className="flex items-center gap-[22px] rounded-[12px] border border-line bg-surface px-[22px] py-[18px]">
+        <div className="flex flex-wrap items-center gap-4 rounded-[12px] border border-line bg-surface px-4 py-4 sm:flex-nowrap sm:gap-[22px] sm:px-[22px] sm:py-[18px]">
           <MediaPlaceholder
             variant="tight"
             src={bookCover(continueReading.id)}
             className="h-[72px] w-[52px] shrink-0 rounded-[4px]"
           />
-          <div className="flex flex-1 flex-col gap-1">
+          <div className="flex min-w-0 flex-1 flex-col gap-1">
             <span className="text-[12px] uppercase tracking-[0.1em] text-muted">
               Continue reading
             </span>
-            <span className="text-[18px]">{continueReading.title}</span>
+            <span className="text-[17px] sm:text-[18px]">{continueReading.title}</span>
             <div className="flex items-center gap-3">
               <div
-                className="h-[3px] w-[220px] rounded-sm bg-line"
+                className="h-[3px] w-full max-w-[220px] flex-1 rounded-sm bg-line"
                 role="progressbar"
                 aria-valuenow={continueReading.progress!.page}
                 aria-valuemin={0}
@@ -96,7 +96,7 @@ export default function ResourcesPage() {
                   }}
                 />
               </div>
-              <span className="text-[13px] font-light text-muted">
+              <span className="shrink-0 text-[13px] font-light text-muted">
                 p. {continueReading.progress!.page} of{' '}
                 {continueReading.progress!.of}
               </span>
@@ -104,7 +104,7 @@ export default function ResourcesPage() {
           </div>
           <Link
             href={`/resources/${continueReading.id}`}
-            className="rounded-[10px] border border-tulsi px-5 py-[9px] text-[14px] text-tulsi-ink hover:bg-tulsi-tint hover:text-tulsi-ink"
+            className="w-full rounded-[10px] border border-tulsi px-5 py-[9px] text-center text-[14px] text-tulsi-ink sm:w-auto hover:bg-tulsi-tint hover:text-tulsi-ink"
           >
             Resume
           </Link>
@@ -122,14 +122,14 @@ export default function ResourcesPage() {
                 </span>
               }
             />
-            <div className="grid grid-cols-6 gap-[22px]">
+            <div className="grid grid-cols-3 gap-x-3 gap-y-5 sm:grid-cols-4 sm:gap-[22px] xl:grid-cols-6">
               {books.map((b) => (
                 <BookCard key={b.id} resource={b} />
               ))}
             </div>
           </section>
 
-          <section className="grid grid-cols-2 gap-10 pb-12">
+          <section className="grid grid-cols-1 gap-8 pb-12 md:grid-cols-2 md:gap-10">
             <div className="flex flex-col gap-1.5">
               <span className="mb-1.5 text-[17px]">Audiobooks</span>
               {audiobooks.map((a) => (
@@ -138,10 +138,10 @@ export default function ResourcesPage() {
                   href={`/resources/${a.id}`}
                   className="flex items-center gap-3.5 border-t border-line py-2.5 hover:text-ink"
                 >
-                  <span className="flex h-[34px] w-[34px] items-center justify-center rounded-full border border-line-deep text-ink">
+                  <span className="flex h-[34px] w-[34px] shrink-0 items-center justify-center rounded-full border border-line-deep text-ink">
                     <Play size={14} weight="light" />
                   </span>
-                  <span className="flex flex-1 flex-col">
+                  <span className="flex min-w-0 flex-1 flex-col">
                     <span className="text-[14px] text-ink">{a.title}</span>
                     <span className="text-[12px] font-light text-muted">
                       {a.meta}
@@ -164,7 +164,7 @@ export default function ResourcesPage() {
                     src={videoThumb(v.id)}
                     className="h-9 w-16 shrink-0 rounded-[4px]"
                   />
-                  <span className="flex flex-1 flex-col">
+                  <span className="flex min-w-0 flex-1 flex-col">
                     <span className="text-[14px] text-ink">{v.title}</span>
                     <span className="text-[12px] font-light text-muted">
                       {v.meta}
@@ -188,7 +188,7 @@ export default function ResourcesPage() {
               }
             />
           ) : (
-            <div className="grid grid-cols-6 gap-[22px]">
+            <div className="grid grid-cols-3 gap-x-3 gap-y-5 sm:grid-cols-4 sm:gap-[22px] xl:grid-cols-6">
               {filtered.map((r) => (
                 <BookCard key={r.id} resource={r} />
               ))}

@@ -38,7 +38,7 @@ export function PostCard({ post, last = false }: { post: Post; last?: boolean })
     >
       <PostByline post={post} />
 
-      <h3 className="m-0 text-[21px] font-normal leading-[1.3]">
+      <h3 className="m-0 text-[18px] font-normal leading-[1.3] sm:text-[21px]">
         <Link href={`/posts/${post.id}`} className="text-ink hover:text-terracotta">
           {post.title}
         </Link>
@@ -52,7 +52,7 @@ export function PostCard({ post, last = false }: { post: Post; last?: boolean })
 
       {post.media?.length ? (
         <div
-          className="grid h-[220px] max-w-[640px] gap-1.5"
+          className="grid h-[180px] max-w-[640px] gap-1.5 sm:h-[220px]"
           style={{
             gridTemplateColumns: post.media
               .map((m) => `${m.span}fr`)
@@ -63,7 +63,7 @@ export function PostCard({ post, last = false }: { post: Post; last?: boolean })
             <MediaPlaceholder
               key={m.id}
               label={m.label}
-                  src={postMedia(m.label, m.id)}
+              src={postMedia(m.label, m.id)}
               className="rounded-[10px]"
               variant="default"
             />
@@ -71,7 +71,7 @@ export function PostCard({ post, last = false }: { post: Post; last?: boolean })
         </div>
       ) : null}
 
-      <div className="flex items-center gap-6 text-[13px] font-light text-ink-5">
+      <div className="flex items-center gap-6 text-[13px] font-light text-ink-5 max-sm:[&_button]:min-h-8 max-sm:[&_a]:min-h-8">
         <button
           type="button"
           disabled={!can(user, 'feed.like')}
@@ -126,7 +126,7 @@ export function PostByline({
   size?: 'sm' | 'md'
 }) {
   return (
-    <div className="flex items-center gap-2.5 text-[13px] font-light text-muted">
+    <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[13px] font-light text-muted">
       <Avatar
         initials={post.author.initials}
         tone={post.author.avatarTone}
@@ -143,7 +143,7 @@ export function PostByline({
       </span>
       <span>·</span>
       <span>{post.timeAgo}</span>
-      <FlagLabel flagId={post.flagId} className="ml-1.5" />
+      <FlagLabel flagId={post.flagId} className="sm:ml-1.5" />
     </div>
   )
 }

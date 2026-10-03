@@ -35,7 +35,7 @@ export default function ReportsPage() {
   const list = reports.filter((r) => r.status === status)
 
   return (
-    <Main className="gap-7 px-12 py-10">
+    <Main className="gap-6 lg:gap-7 px-5 lg:px-12 py-6 lg:py-10">
       <PageTitle deva="शिकायतें">Reports</PageTitle>
 
       <Tabs value={status} onValueChange={(v) => setStatus(v as ReportStatus)}>
@@ -57,11 +57,11 @@ export default function ReportsPage() {
             return (
               <div
                 key={r.id}
-                className="flex flex-col gap-3 rounded-[12px] border border-line bg-surface p-5"
+                className="flex flex-col gap-3 rounded-[12px] border border-line bg-surface p-4 sm:p-5"
               >
                 <div className="flex items-start gap-4">
-                  <span className="flex flex-1 flex-col gap-1">
-                    <span className="flex items-center gap-2.5">
+                  <span className="flex min-w-0 flex-1 flex-col gap-1">
+                    <span className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
                       <span className="rounded-[6px] bg-ground px-2 py-0.5 text-[11px] uppercase tracking-[0.08em] text-muted">
                         {r.targetKind}
                       </span>
@@ -69,7 +69,7 @@ export default function ReportsPage() {
                         {r.reason}
                       </span>
                     </span>
-                    <span className="text-[16px] font-light leading-[1.5] text-ink">
+                    <span className="text-[15px] font-light leading-[1.5] text-ink sm:text-[16px]">
                       “{r.targetExcerpt}”
                     </span>
                     <span className="text-[13px] font-light text-muted">
@@ -92,7 +92,7 @@ export default function ReportsPage() {
                 ) : null}
 
                 {open ? (
-                  <dl className="m-0 grid grid-cols-2 gap-x-8 gap-y-2 border-t border-line pt-3 text-[13px] font-light">
+                  <dl className="m-0 grid grid-cols-1 gap-x-8 sm:grid-cols-2 gap-y-2 border-t border-line pt-3 text-[13px] font-light">
                     {[
                       ['Status', r.status.replace('_', ' ')],
                       ['Moderator', r.moderator ?? '—'],

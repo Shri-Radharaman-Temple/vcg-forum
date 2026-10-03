@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-ground px-6 text-center">
+    <div className="flex min-h-dvh flex-col items-center justify-center gap-3 bg-ground px-6 text-center">
       <span className="deva text-[28px]">राधे राधे</span>
       <h1 className="m-0 text-[26px] font-light">This page could not be found</h1>
       <p className="m-0 max-w-[400px] text-[15px] font-light leading-[1.6] text-ink-4">
