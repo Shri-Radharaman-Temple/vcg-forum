@@ -1,0 +1,171 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   VCG design tokens — "warm earth" direction.
+   Values are taken verbatim from `VCG Desktop.dc.html`; do not eyeball-tweak
+   them. Sandstone ground, warm ink, tulsi green for primary actions,
+   terracotta for Devanagari accents and announcements.
+--------------------------------------------------------------------------- */
+@theme {
+  /* Ground */
+  --color-canvas: #e7e0d5; /* outside the app frame */
+  --color-ground: #f4eee5; /* app background */
+  --color-surface: #fbf8f3; /* raised panels, inputs, calendar body */
+  --color-rail: #f1eadf; /* sidebar */
+  --color-rail-input: #f8f3ec;
+
+  /* Ink — warm greys, darkest first */
+  --color-ink: #2a241f;
+  --color-ink-2: #3a322b;
+  --color-ink-3: #4a4038;
+  --color-ink-4: #5e544a;
+  --color-ink-5: #7b6f63;
+  --color-muted: #8a7e71;
+  --color-muted-2: #a69a8c;
+  --color-muted-3: #c2b6a7;
+
+  /* Hairlines */
+  --color-line: #e4dacb;
+  --color-line-strong: #e1d6c6;
+  --color-line-soft: #ede5d9;
+  --color-line-warm: #d9cebe;
+  --color-line-deep: #cdbfae;
+
+  /* Tulsi green — primary action */
+  --color-tulsi: #4f7a5a;
+  --color-tulsi-ink: #3f6649;
+  --color-tulsi-tint: #e6ede3;
+
+  /* Terracotta — Devanagari accents, announcements */
+  --color-terracotta: #b4613c;
+  --color-terracotta-ink: #9a4f2e;
+  --color-terracotta-tint: #f4e3d8;
+
+  /* Placeholder fills (avatars, covers, media) */
+  --color-fill-1: #dccfbd;
+  --color-fill-2: #d8cdbf;
+  --color-fill-3: #cfc3b2;
+  --color-fill-4: #e6daca;
+  --color-fill-5: #e9dfd1;
+  --color-fill-6: #ece3d6;
+  --color-fill-ink: #6b5e50;
+
+  /* Type — wired to next/font in layout.tsx */
+  --font-sans: var(--font-mukta), ui-sans-serif, system-ui, sans-serif;
+  --font-deva: var(--font-tiro), Georgia, serif;
+  --font-mono: ui-monospace, Menlo, monospace;
+
+  /* The design uses hairline borders and no shadows on content. */
+  --radius-card: 12px;
+  --radius-control: 10px;
+  --radius-chip: 8px;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--color-ground);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 300;
+  }
+
+  /* Mukta reads light; headings sit at 300/400, never bold. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 400;
+    text-wrap: pretty;
+  }
+
+  a {
+    color: var(--color-tulsi-ink);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--color-terracotta);
+  }
+
+  ::selection {
+    background: var(--color-tulsi-tint);
+    color: var(--color-ink);
+  }
+
+  /* Focus ring tuned to the warm palette — visible without shouting. */
+  :focus-visible {
+    outline: 2px solid var(--color-tulsi);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer utilities {
+  /* Devanagari accent text — Tiro, terracotta, used sparingly for
+     section titles and greetings only. */
+  .deva {
+    font-family: var(--font-deva);
+    color: var(--color-terracotta);
+    font-weight: 400;
+  }
+
+  /* Hatched placeholder used for every image/cover area in the design. */
+  .placeholder-hatch {
+    background:
+      repeating-linear-gradient(
+        135deg,
+        rgb(120 95 70 / 0.11) 0 1px,
+        transparent 1px 9px
+      ),
+      var(--color-fill-5);
+  }
+
+  .placeholder-hatch-tight {
+    background:
+      repeating-linear-gradient(
+        135deg,
+        rgb(120 95 70 / 0.12) 0 1px,
+        transparent 1px 7px
+      ),
+      var(--color-fill-4);
+  }
+
+  .placeholder-hatch-wide {
+    background:
+      repeating-linear-gradient(
+        135deg,
+        rgb(120 95 70 / 0.1) 0 1px,
+        transparent 1px 10px
+      ),
+      var(--color-fill-5);
+  }
+
+  /* Thin scrollbars so scroll regions don't break the hairline aesthetic. */
+  .scroll-quiet {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-line-deep) transparent;
+  }
+
+  .scroll-quiet::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scroll-quiet::-webkit-scrollbar-thumb {
+    background: var(--color-line-deep);
+    border-radius: 4px;
+  }
+
+  .scroll-quiet::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
